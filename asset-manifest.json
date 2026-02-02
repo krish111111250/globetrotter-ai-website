@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/globetrotter-ai-website/static/css/main.036f2124.css",
+    "main.js": "/globetrotter-ai-website/static/js/main.2e75d18a.js",
+    "static/js/453.eca5f793.chunk.js": "/globetrotter-ai-website/static/js/453.eca5f793.chunk.js",
+    "index.html": "/globetrotter-ai-website/index.html",
+    "main.036f2124.css.map": "/globetrotter-ai-website/static/css/main.036f2124.css.map",
+    "main.2e75d18a.js.map": "/globetrotter-ai-website/static/js/main.2e75d18a.js.map",
+    "453.eca5f793.chunk.js.map": "/globetrotter-ai-website/static/js/453.eca5f793.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.036f2124.css",
+    "static/js/main.2e75d18a.js"
+  ]
+}
