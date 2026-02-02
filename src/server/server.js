@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const db = require('./database');
 
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' })); // Increased limit for image uploads
@@ -19,15 +19,15 @@ app.post('/register', (req, res) => {
     const { firstName, lastName, email, password, phone, city, country, additionalInfo, profileImage } = req.body;
     const sql = `INSERT INTO users (firstName, lastName, email, password, phone, city, country, additionalInfo, profileImage) VALUES (?,?,?,?,?,?,?,?,?)`;
     const params = [firstName, lastName, email, password, phone, city, country, additionalInfo, profileImage];
-    
-    db.run(sql, params, function(err) {
+
+    db.run(sql, params, function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
         }
-        res.json({ 
-            message: "User registered successfully", 
-            userId: this.lastID 
+        res.json({
+            message: "User registered successfully",
+            userId: this.lastID
         });
     });
 });
@@ -36,16 +36,16 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
     const sql = `SELECT * FROM users WHERE email = ? AND password = ?`;
-    
+
     db.get(sql, [email, password], (err, row) => {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
         }
         if (row) {
-            res.json({ 
-                message: "Login successful", 
-                user: row 
+            res.json({
+                message: "Login successful",
+                user: row
             });
         } else {
             res.status(401).json({ message: "Invalid email or password" });
@@ -58,8 +58,8 @@ app.put('/users/:id', (req, res) => {
     const { firstName, lastName, email, phone, city, country, additionalInfo, profileImage } = req.body;
     const sql = `UPDATE users SET firstName = ?, lastName = ?, email = ?, phone = ?, city = ?, country = ?, additionalInfo = ?, profileImage = ? WHERE id = ?`;
     const params = [firstName, lastName, email, phone, city, country, additionalInfo, profileImage, req.params.id];
-    
-    db.run(sql, params, function(err) {
+
+    db.run(sql, params, function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
@@ -86,15 +86,15 @@ app.post('/trips', (req, res) => {
     const { userId, destination, startDate, endDate, budget, travelers, description } = req.body;
     const sql = `INSERT INTO trips (userId, destination, startDate, endDate, budget, travelers, description) VALUES (?,?,?,?,?,?,?)`;
     const params = [userId, destination, startDate, endDate, budget, travelers, description];
-    
-    db.run(sql, params, function(err) {
+
+    db.run(sql, params, function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
         }
-        res.json({ 
-            message: "Trip created successfully", 
-            tripId: this.lastID 
+        res.json({
+            message: "Trip created successfully",
+            tripId: this.lastID
         });
     });
 });
@@ -117,15 +117,15 @@ app.post('/expenses', (req, res) => {
     const { tripId, category, amount, description, date } = req.body;
     const sql = `INSERT INTO expenses (tripId, category, amount, description, date) VALUES (?,?,?,?,?)`;
     const params = [tripId, category, amount, description, date];
-    
-    db.run(sql, params, function(err) {
+
+    db.run(sql, params, function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
         }
-        res.json({ 
-            message: "Expense added successfully", 
-            expenseId: this.lastID 
+        res.json({
+            message: "Expense added successfully",
+            expenseId: this.lastID
         });
     });
 });
@@ -152,15 +152,15 @@ app.post('/posts', (req, res) => {
     const { userId, content, tags } = req.body;
     const sql = `INSERT INTO posts (userId, content, tags) VALUES (?,?,?)`;
     const params = [userId, content, tags];
-    
-    db.run(sql, params, function(err) {
+
+    db.run(sql, params, function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
         }
-        res.json({ 
-            message: "Post created successfully", 
-            postId: this.lastID 
+        res.json({
+            message: "Post created successfully",
+            postId: this.lastID
         });
     });
 });
@@ -169,7 +169,7 @@ app.post('/posts', (req, res) => {
 app.post('/chat', (req, res) => {
     const { message } = req.body;
     let reply = "I'm your AI travel assistant. I can help you plan your trip, find activities, and more. Where are you planning to go?";
-    
+
     const msg = message.toLowerCase();
     if (msg.includes('paris')) {
         reply = "Paris is wonderful! Don't miss the Eiffel Tower, Louvre Museum, and a cruise on the Seine. I can add these to your itinerary.";
@@ -194,12 +194,12 @@ app.get('/activities', (req, res) => {
     const { search } = req.query;
     let sql = "SELECT * FROM activities";
     let params = [];
-    
+
     if (search) {
         sql += " WHERE name LIKE ? OR category LIKE ?";
         params = [`%${search}%`, `%${search}%`];
     }
-    
+
     db.all(sql, params, (err, rows) => {
         if (err) {
             res.status(400).json({ error: err.message });
@@ -214,13 +214,13 @@ app.get('/destinations', (req, res) => {
     const { search } = req.query;
     let sql = "SELECT * FROM destinations";
     let params = [];
-    
+
     if (search) {
         sql += " WHERE name LIKE ? OR country LIKE ? OR category LIKE ?";
         const s = `%${search}%`;
         params = [s, s, s];
     }
-    
+
     db.all(sql, params, (err, rows) => {
         if (err) {
             res.status(400).json({ error: err.message });
@@ -246,7 +246,7 @@ app.get('/checklist/:userId', (req, res) => {
 app.post('/checklist', (req, res) => {
     const { userId, text, category } = req.body;
     const sql = "INSERT INTO checklist (userId, text, category) VALUES (?,?,?)";
-    db.run(sql, [userId, text, category], function(err) {
+    db.run(sql, [userId, text, category], function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
@@ -259,7 +259,7 @@ app.post('/checklist', (req, res) => {
 app.put('/checklist/:id', (req, res) => {
     const { completed } = req.body;
     const sql = "UPDATE checklist SET completed = ? WHERE id = ?";
-    db.run(sql, [completed, req.params.id], function(err) {
+    db.run(sql, [completed, req.params.id], function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
@@ -271,7 +271,7 @@ app.put('/checklist/:id', (req, res) => {
 // Delete Checklist Item
 app.delete('/checklist/:id', (req, res) => {
     const sql = "DELETE FROM checklist WHERE id = ?";
-    db.run(sql, [req.params.id], function(err) {
+    db.run(sql, [req.params.id], function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
@@ -296,7 +296,7 @@ app.get('/itinerary/:tripId', (req, res) => {
 app.post('/itinerary', (req, res) => {
     const { tripId, city, dates, activities } = req.body;
     const sql = "INSERT INTO itinerary_stops (tripId, city, dates, activities) VALUES (?,?,?,?)";
-    db.run(sql, [tripId, city, dates, activities], function(err) {
+    db.run(sql, [tripId, city, dates, activities], function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
@@ -309,7 +309,7 @@ app.post('/itinerary', (req, res) => {
 app.put('/itinerary/:id', (req, res) => {
     const { city, dates, activities } = req.body;
     const sql = "UPDATE itinerary_stops SET city = ?, dates = ?, activities = ? WHERE id = ?";
-    db.run(sql, [city, dates, activities, req.params.id], function(err) {
+    db.run(sql, [city, dates, activities, req.params.id], function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
@@ -321,7 +321,7 @@ app.put('/itinerary/:id', (req, res) => {
 // Delete Itinerary Stop
 app.delete('/itinerary/:id', (req, res) => {
     const sql = "DELETE FROM itinerary_stops WHERE id = ?";
-    db.run(sql, [req.params.id], function(err) {
+    db.run(sql, [req.params.id], function (err) {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
@@ -336,14 +336,14 @@ app.get('/weather', (req, res) => {
     // Simulate weather data
     const conditions = ['Sunny', 'Cloudy', 'Rain', 'Partly Cloudy', 'Clear'];
     const icons = ['☀️', '☁️', '🌧️', '⛅', '☀️'];
-    
+
     const forecast = Array.from({ length: 5 }).map((_, i) => {
         const date = new Date();
         date.setDate(date.getDate() + i);
         const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
         const rand = Math.floor(Math.random() * conditions.length);
         const temp = Math.floor(Math.random() * (30 - 10) + 10);
-        
+
         return {
             day: dayName,
             temp: `${temp}°C`,
@@ -351,33 +351,33 @@ app.get('/weather', (req, res) => {
             desc: conditions[rand]
         };
     });
-    
-    res.json({ 
+
+    res.json({
         city: city || 'Unknown',
         currentTemp: forecast[0].temp,
         condition: forecast[0].desc,
         icon: forecast[0].icon,
-        forecast 
+        forecast
     });
 });
 
 // Admin Stats Endpoint
 app.get('/admin/stats', (req, res) => {
     const stats = {};
-    
+
     db.serialize(() => {
         db.get("SELECT count(*) as count FROM users", (err, row) => {
             if (err) return;
             stats.users = row.count;
-            
+
             db.get("SELECT count(*) as count FROM trips", (err, row) => {
                 if (err) return;
                 stats.trips = row.count;
-                
+
                 db.get("SELECT count(*) as count FROM posts", (err, row) => {
                     if (err) return;
                     stats.posts = row.count;
-                    
+
                     res.json({ stats });
                 });
             });
