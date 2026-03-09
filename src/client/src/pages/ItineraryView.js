@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ShareModal from '../components/ShareModal'; 
+import ShareModal from '../components/ShareModal';
 import { fetchTrips, fetchItineraryStops } from '../api';
 
 const ItineraryView = ({ isPublic = false }) => {
@@ -23,11 +23,11 @@ const ItineraryView = ({ isPublic = false }) => {
 
                         // Fetch Itinerary Stops
                         const { data: stopsData } = await fetchItineraryStops(latestTrip.id);
-                        
+
                         let viewItinerary = [];
 
                         if (stopsData.stops && stopsData.stops.length > 0) {
-                             // Transform DB stops to View structure
+                            // Transform DB stops to View structure
                             viewItinerary = stopsData.stops.map((stop, index) => ({
                                 day: index + 1,
                                 city: stop.city,
@@ -62,7 +62,7 @@ const ItineraryView = ({ isPublic = false }) => {
                                 }
                             ];
                         }
-                        
+
                         setItinerary(viewItinerary);
                     }
                 } catch (err) {
@@ -83,13 +83,13 @@ const ItineraryView = ({ isPublic = false }) => {
 
     return (
         <div className="min-h-screen bg-[#F8FAFC] p-6 lg:p-10">
-            
+
             {/* 1. SEARCH & FILTER HEADER */}
             <div className="max-w-6xl mx-auto mb-10">
                 <div className="flex flex-col md:flex-row gap-4 items-center bg-white p-6 rounded-[30px] shadow-sm border border-gray-100">
                     <div className="flex-1 relative w-full">
                         <span className="absolute left-5 top-1/2 -translate-y-1/2">🔍</span>
-                        <input 
+                        <input
                             type="text"
                             placeholder="Search in itinerary..."
                             className="w-full pl-12 pr-4 py-4 bg-gray-50 border-none rounded-2xl font-bold text-[#102C57] outline-none focus:ring-2 focus:ring-blue-100"
@@ -97,7 +97,7 @@ const ItineraryView = ({ isPublic = false }) => {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
-                    <div className="flex gap-2 w-full md:w-auto">
+                    <div className="flex flex-wrap gap-2 w-full md:w-auto">
                         <button className="screen9-filter-btn">Group by</button>
                         <button className="screen9-filter-btn">Filter</button>
                         <button className="screen9-filter-btn">Sort by...</button>
@@ -108,7 +108,7 @@ const ItineraryView = ({ isPublic = false }) => {
             <div className="max-w-5xl mx-auto">
                 {/* 2. MAIN TITLE */}
                 <div className="text-center mb-16">
-                    <h1 className="text-4xl font-black text-[#102C57] italic uppercase tracking-tighter">
+                    <h1 className="text-3xl md:text-4xl font-black text-[#102C57] italic uppercase tracking-tighter">
                         Itinerary for {tripDetails ? tripDetails.destination : 'Your Trip'}
                     </h1>
                     <p className="text-blue-500 font-black text-[10px] uppercase tracking-[0.4em] mt-2">
@@ -117,7 +117,7 @@ const ItineraryView = ({ isPublic = false }) => {
                 </div>
 
                 {/* 3. ACTIVITY GRID HEADER */}
-                <div className="grid grid-cols-12 gap-6 mb-6 px-10 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                <div className="hidden md:grid grid-cols-12 gap-6 mb-6 px-10 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     <div className="col-span-2">Timeline</div>
                     <div className="col-span-7 text-center">Physical Activity & Highlights</div>
                     <div className="col-span-3 text-right">Expense ($)</div>
@@ -127,7 +127,7 @@ const ItineraryView = ({ isPublic = false }) => {
                 <div className="space-y-20">
                     {itinerary.map((dayGroup, dayIdx) => (
                         <div key={dayGroup.day} className="relative">
-                            
+
                             {/* Day Label */}
                             <div className="absolute -left-4 top-0 z-10">
                                 <div className="bg-[#102C57] text-white w-16 h-16 rounded-full flex flex-col items-center justify-center shadow-xl border-4 border-white">
@@ -140,33 +140,33 @@ const ItineraryView = ({ isPublic = false }) => {
                             <div className="ml-16 space-y-6">
                                 {dayGroup.activities.map((act, actIdx) => (
                                     <div key={act.id} className="flex flex-col items-center">
-                                        <div className="grid grid-cols-12 gap-4 w-full items-center bg-white p-4 rounded-[30px] shadow-sm border border-gray-100 hover:border-blue-400 transition-all group overflow-hidden">
-                                            
+                                        <div className="flex flex-col md:grid md:grid-cols-12 gap-4 w-full items-center bg-white p-4 rounded-[20px] md:rounded-[30px] shadow-sm border border-gray-100 hover:border-blue-400 transition-all group overflow-hidden">
+
                                             {/* IMAGE & Activity (Center) */}
-                                            <div className="col-span-9 flex items-center gap-6">
-                                                <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 shadow-md">
+                                            <div className="col-span-12 md:col-span-9 flex flex-col sm:flex-row items-center sm:items-start md:items-center gap-4 md:gap-6 w-full text-center sm:text-left">
+                                                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden shrink-0 shadow-md">
                                                     <img src={act.image} alt={act.task} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                                 </div>
-                                                <div className="flex flex-col">
-                                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{act.icon} Activity</span>
-                                                    <input 
+                                                <div className="flex flex-col w-full">
+                                                    <span className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{act.icon} Activity</span>
+                                                    <input
                                                         type="text"
                                                         value={act.task}
-                                                        className="w-full text-xl font-black text-[#102C57] uppercase tracking-tight outline-none bg-transparent"
+                                                        className="w-full text-lg md:text-xl font-black text-[#102C57] uppercase tracking-tight outline-none bg-transparent text-center sm:text-left"
                                                         readOnly={isPublic}
                                                     />
                                                 </div>
                                             </div>
 
                                             {/* Expense Box (Right) */}
-                                            <div className="col-span-3">
+                                            <div className="col-span-12 md:col-span-3 w-full md:w-auto mt-2 md:mt-0">
                                                 <div className="relative">
                                                     <span className="absolute left-6 top-1/2 -translate-y-1/2 font-black text-gray-400">$</span>
-                                                    <input 
+                                                    <input
                                                         type="number"
                                                         value={act.expense}
                                                         onChange={(e) => handleExpenseChange(dayIdx, act.id, e.target.value)}
-                                                        className="w-full p-4 pl-10 bg-[#F8FAFC] text-[#102C57] rounded-[20px] font-black text-lg text-center shadow-inner focus:bg-[#102C57] focus:text-white outline-none transition-all"
+                                                        className="w-full p-4 pl-10 bg-[#F8FAFC] text-[#102C57] rounded-[20px] font-black text-base md:text-lg text-center shadow-inner focus:bg-[#102C57] focus:text-white outline-none transition-all"
                                                         placeholder="0"
                                                         readOnly={isPublic}
                                                     />
@@ -190,16 +190,16 @@ const ItineraryView = ({ isPublic = false }) => {
 
                 {/* 5. SUMMARY ACTION */}
                 {!isPublic && (
-                    <div className="mt-20 flex justify-center gap-4">
-                        <button 
+                    <div className="mt-16 md:mt-20 flex flex-col sm:flex-row justify-center gap-4">
+                        <button
                             onClick={() => setIsShareModalOpen(true)}
-                            className="px-10 py-5 rounded-2xl border-2 border-[#102C57] text-[#102C57] font-black uppercase text-[10px] tracking-widest hover:bg-gray-50 transition-all"
+                            className="px-8 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl border-2 border-[#102C57] text-[#102C57] font-black uppercase text-[10px] tracking-widest hover:bg-gray-50 transition-all"
                         >
                             Share Itinerary
                         </button>
-                        <button 
+                        <button
                             onClick={() => navigate('/budget')}
-                            className="px-10 py-5 rounded-2xl bg-[#102C57] text-white font-black uppercase text-[10px] tracking-widest shadow-2xl hover:scale-105 transition-all"
+                            className="px-8 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl bg-[#102C57] text-white font-black uppercase text-[10px] tracking-widest shadow-2xl hover:scale-105 transition-all"
                         >
                             Full Budget Breakdown
                         </button>
@@ -207,10 +207,10 @@ const ItineraryView = ({ isPublic = false }) => {
                 )}
             </div>
 
-            <ShareModal 
-                isOpen={isShareModalOpen} 
-                onClose={() => setIsShareModalOpen(false)} 
-                tripId="paris-999" 
+            <ShareModal
+                isOpen={isShareModalOpen}
+                onClose={() => setIsShareModalOpen(false)}
+                tripId="paris-999"
             />
 
             <style jsx>{`

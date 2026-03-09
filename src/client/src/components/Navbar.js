@@ -26,9 +26,9 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#102C57] text-white shadow-md">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-        <button onClick={() => navigate('/dashboard')} className="flex items-center gap-3">
-          <span className="text-xl font-black tracking-tight">GLOBETROTTER</span>
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+        <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 md:gap-3">
+          <span className="text-lg md:text-xl font-black tracking-tight">GLOBETROTTER</span>
         </button>
         <div className="hidden md:flex items-center gap-4">
           {navItems.map((item) => (

@@ -129,22 +129,22 @@ const CreateTrip = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto py-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+        <div className="max-w-4xl mx-auto py-4 md:py-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
 
             {showSuccess && (
-                <div className="fixed inset-0 bg-aero-900/40 backdrop-blur-2xl z-[200] flex items-center justify-center p-6 text-center">
-                    <div className="bg-white/90 p-12 rounded-[3.5rem] shadow-glass border border-white max-w-sm w-full animate-in zoom-in duration-300">
-                        <div className="w-24 h-24 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-8 text-5xl">✨</div>
-                        <h2 className="text-4xl font-serif italic text-aero-900 mb-2">Journey Set.</h2>
+                <div className="fixed inset-0 bg-aero-900/40 backdrop-blur-2xl z-[200] flex items-center justify-center p-4 md:p-6 text-center">
+                    <div className="bg-white/90 p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] shadow-glass border border-white max-w-sm w-full animate-in zoom-in duration-300">
+                        <div className="w-20 h-20 md:w-24 md:h-24 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 md:mb-8 text-4xl md:text-5xl">✨</div>
+                        <h2 className="text-3xl md:text-4xl font-serif italic text-aero-900 mb-2">Journey Set.</h2>
                         <p className="text-aero-500 font-black uppercase text-[10px] tracking-[0.3em]">Igniting Itinerary Engines...</p>
                     </div>
                 </div>
             )}
 
             {/* Header Content */}
-            <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-6 mb-8 md:mb-12">
                 <div>
-                    <h1 className="text-5xl font-serif italic text-aero-900 mb-2">New Journey</h1>
+                    <h1 className="text-4xl md:text-5xl font-serif italic text-aero-900 mb-2">New Journey</h1>
                     <div className="flex items-center gap-3">
                         <span className="text-primary-500 font-black text-[10px] uppercase tracking-[0.4em]">Itinerary Creator</span>
                         <div className="h-px w-12 bg-aero-200"></div>
@@ -162,7 +162,7 @@ const CreateTrip = () => {
             <div className="space-y-6">
                 <form onSubmit={handleSubmit}>
                     {/* Box: Destination */}
-                    <div className="bg-white border border-aero-200 rounded-2xl p-6">
+                    <div className="bg-white border border-aero-200 rounded-2xl p-4 md:p-6">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xl font-semibold text-aero-900">Destination</h3>
                             <span className="text-[10px] font-black text-aero-500 tracking-widest">Step 1</span>
@@ -178,7 +178,7 @@ const CreateTrip = () => {
                                 onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
                             />
                         </div>
-                        <div className="mt-6 grid grid-cols-3 md:grid-cols-6 gap-4">
+                        <div className="mt-4 md:mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 md:gap-4">
                             {suggestions.map((item) => (
                                 <button
                                     type="button"
@@ -213,7 +213,7 @@ const CreateTrip = () => {
                     </div>
 
                     {/* Box: Discover Real Places */}
-                    <div className="bg-white border border-aero-200 rounded-2xl p-6">
+                    <div className="bg-white border border-aero-200 rounded-2xl p-4 md:p-6">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xl font-semibold text-aero-900">Discover Real Places</h3>
                             <span className="text-[10px] font-black text-aero-500 tracking-widest">Live Finder</span>
@@ -293,12 +293,12 @@ const CreateTrip = () => {
                     </div>
 
                     {/* Box: Dates */}
-                    <div className="bg-white border border-aero-200 rounded-2xl p-6">
+                    <div className="bg-white border border-aero-200 rounded-2xl p-4 md:p-6">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xl font-semibold text-aero-900">Travel Dates</h3>
                             <span className="text-[10px] font-black text-aero-500 tracking-widest">Step 2</span>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                             <div className="space-y-2">
                                 <label className="text-sm text-aero-500">Departure</label>
                                 <input
@@ -321,7 +321,7 @@ const CreateTrip = () => {
                     </div>
 
                     {/* Box: Budget & Travelers */}
-                    <div className="bg-white border border-aero-200 rounded-2xl p-6">
+                    <div className="bg-white border border-aero-200 rounded-2xl p-4 md:p-6">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xl font-semibold text-aero-900">Budget & Travelers</h3>
                             <span className="text-[10px] font-black text-aero-500 tracking-widest">Step 3</span>
@@ -352,7 +352,7 @@ const CreateTrip = () => {
                     </div>
 
                     {/* Box: Notes */}
-                    <div className="bg-white border border-aero-200 rounded-2xl p-6">
+                    <div className="bg-white border border-aero-200 rounded-2xl p-4 md:p-6">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xl font-semibold text-aero-900">Adventure Notes</h3>
                             <span className="text-[10px] font-black text-aero-500 tracking-widest">Step 4</span>
@@ -369,7 +369,7 @@ const CreateTrip = () => {
                     </div>
 
                     {/* Submit */}
-                    <div className="bg-white border border-aero-200 rounded-2xl p-6">
+                    <div className="bg-white border border-aero-200 rounded-2xl p-4 md:p-6">
                         <button
                             type="submit"
                             disabled={loading}

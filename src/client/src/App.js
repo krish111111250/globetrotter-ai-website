@@ -28,7 +28,7 @@ function App() {
     <Router>
       <div className="min-h-screen bg-aero-100 font-sans selection:bg-primary-100/50">
         <Navbar />
-        <main className="pt-20 pb-12 px-6 max-w-7xl mx-auto">
+        <main className="pt-16 md:pt-20 pb-8 md:pb-12 px-4 md:px-6 max-w-7xl mx-auto">
           <Routes>
             {/* 1. Auth & Entry */}
             <Route path="/" element={<Auth />} />
